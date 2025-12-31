@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { GameScore } from '@shared/models';
+import { environment } from '../../../environments/environment';
 
 /**
  * LeaderboardService
@@ -9,7 +10,7 @@ import { GameScore } from '@shared/models';
   providedIn: 'root',
 })
 export class LeaderboardService {
-  private readonly BASE = 'http://localhost:3001/api';
+  private readonly BASE = `${environment.backendUrl}/api`;
 
   async fetchLeaderboard(limit = 50): Promise<GameScore[]> {
     try {

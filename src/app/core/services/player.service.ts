@@ -1,4 +1,5 @@
 import { Injectable, signal, computed } from '@angular/core';
+import { environment } from '../../../environments/environment';
 import { Player, GameScore, Character } from '@shared/models';
 import { StorageService } from './storage.service';
 
@@ -147,7 +148,8 @@ export class PlayerService {
     this.updatePlayerStats();
     // Enviar score para o backend para persistência global (não bloquear a UI)
     try {
-      fetch('http://localhost:3001/api/leaderboard', {
+      const backend = environment.backendUrl || 'http://localhost:3001';
+      fetch(`${backend}/api/leaderboard`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -238,7 +240,8 @@ export class PlayerService {
    */
   async fetchLeaderboard(limit = 50): Promise<GameScore[]> {
     try {
-      const url = `http://localhost:3001/api/leaderboard?limit=${encodeURIComponent(String(limit))}`;
+      const backend = environment.backendUrl || 'http://localhost:3001';
+      const url = `${backend}/api/leaderboard?limit=${encodeURIComponent(String(limit))}`;
       const res = await fetch(url);
       if (!res.ok) {
         console.warn('Erro ao buscar leaderboard:', res.status);

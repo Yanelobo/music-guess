@@ -4,11 +4,13 @@ import fs from 'fs/promises';
 import path from 'path';
 
 const app = express();
-const PORT = 3001;
+const PORT = process.env.PORT ? Number(process.env.PORT) : 3001;
+
+const FRONTEND_ORIGIN = process.env.FRONTEND_ORIGIN || '*';
 
 const LEADERBOARD_FILE = path.join(__dirname, 'leaderboard.json');
 
-app.use(cors());
+app.use(cors({ origin: FRONTEND_ORIGIN }));
 app.use(express.json());
 
 /**

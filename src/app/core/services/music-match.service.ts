@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { environment } from '../../../environments/environment';
 
 /**
  * Interface para resposta do backend
@@ -26,7 +27,7 @@ interface MatchResponse {
   providedIn: 'root',
 })
 export class MusicMatchService {
-  private readonly BACKEND_API = 'http://localhost:3001/api';
+  private readonly BACKEND_API = `${environment.backendUrl}/api`;
 
   /**
    * Método principal: calcula correspondência entre música e mood
