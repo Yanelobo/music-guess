@@ -1,0 +1,115 @@
+<div class="game-container">
+  <!-- Header com mood -->
+  <header class="game-header">
+    <h1>🎵 Music Guess</h1>
+    <div class="mood-section" *ngIf="currentMood() as mood">
+      <div class="mood-display" [style.background-color]="mood.color">
+        <div class="mood-emoji">{{ mood.emoji }}</div>
+        <div class="mood-info">
+          <h2>{{ mood.name }}</h2>
+          <p>{{ mood.description }}</p>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Seção principal do jogo -->
+  <main class="game-main">
+    <!-- Se já jogou hoje, mostrar resultado -->
+    <div *ngIf="hasPlayedToday()" class="result-section">
+      <h3>Sua tentativa de hoje</h3>
+      <div class="result-card">
+        <div class="result-music">
+          <p class="label">Sua música:</p>
+          <p class="value">{{ currentScore()?.userGuess }}</p>
+        </div>
+        <div class="result-percentage">
+          <p class="label">Correspondência:</p>
+          <div class="percentage-display">
+            <span class="value">{{ currentScore()?.matchPercentage }}%</span>
+            <div class="progress-bar">
+              <div class="progress-fill" [style.width]="currentScore()?.matchPercentage + '%'"></div>
+            </div>
+          </div>
+        </div>
+        <div class="result-feedback">
+          <p>{{ feedbackMessage() }}</p>
+        </div>
+      </div>
+      <p class="locked-message">
+        ✨ Você já jogou sua tentativa de hoje. Volte amanhã para tentar novamente!
+      </p>
+    </div>
+
+    <!-- Se ainda não jogou, mostrar formulário -->
+    <div *ngIf="!hasPlayedToday()" class="guess-section">
+      <form (ngSubmit)="onSubmitGuess()">
+        <div class="form-group">
+          <label for="artistInput">Artista 🎤</label>
+          <input
+            id="artistInput"
+            type="text"
+            [ngModel]="artistInput()"
+            (ngModelChange)="artistInput.set($event)"
+            name="artist"
+            placeholder="Digite o nome do artista..."
+            [disabled]="isSubmitting()"
+            class="music-input"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="musicInput">Música 🎵</label>
+          <input
+            id="musicInput"
+            type="text"
+            [ngModel]="musicInput()"
+            (ngModelChange)="musicInput.set($event)"
+            name="music"
+            placeholder="Digite o nome da música..."
+            [disabled]="isSubmitting()"
+            class="music-input"
+          />
+        </div>
+
+        <button
+          type="submit"
+          [disabled]="!artistInput().trim() || !musicInput().trim() || isSubmitting()"
+          class="submit-btn"
+        >
+          <span *ngIf="!isSubmitting()">✨ Enviar Adivinhação</span>
+          <span *ngIf="isSubmitting()">⏳ Processando...</span>
+        </button>
+      </form>
+
+      <!-- Mostrar resultado da tentativa enquanto está processando -->
+      <div *ngIf="showResult()" class="guess-result">
+        <h3>Resultado da sua tentativa!</h3>
+        <div class="result-card">
+          <div class="result-music">
+            <p class="label">Sua música:</p>
+            <p class="value">{{ resultData()?.userGuess }}</p>
+          </div>
+          <div class="result-percentage">
+            <p class="label">Correspondência:</p>
+            <div class="percentage-display">
+              <span class="value">{{ resultData()?.matchPercentage }}%</span>
+              <div class="progress-bar">
+                <div class="progress-fill" [style.width]="resultData()?.matchPercentage + '%'"></div>
+              </div>
+            </div>
+          </div>
+          <div class="result-feedback">
+            <p>{{ feedbackMessage() }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mensagens de erro -->
+    <div *ngIf="error()" class="error-message">
+      <p>{{ error() }}</p>
+      <button (click)="gameStateService.clearError()" class="close-btn">✕</button>
+    </div>
+  </main>
+</div>

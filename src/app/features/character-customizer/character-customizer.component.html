@@ -1,0 +1,95 @@
+<div class="customizer-container">
+  <h1>👤 Customize seu Personagem</h1>
+
+  <div class="customizer-content">
+    <!-- Preview do Personagem -->
+    <div class="character-preview">
+      <div class="preview-box" [style.background-color]="previewColor()">
+        <div class="character-display">
+          <div class="character-skin" [style.background]="getSkinColor()"></div>
+          <div class="character-hair" [style.background]="getHairStyle()"></div>
+          <div class="character-outfit" [style.background]="getOutfitColor()"></div>
+        </div>
+      </div>
+      <p class="preview-label">Prévia do seu personagem</p>
+    </div>
+
+    <!-- Opções de Customização -->
+    <div class="customization-options">
+      <!-- Cor de Pele -->
+      <div class="option-group">
+        <label>Cor de Pele</label>
+        <div class="option-buttons">
+          <button
+            *ngFor="let option of skinColorOptions"
+            (click)="selectedSkinColor.set(option.id)"
+            [class.active]="selectedSkinColor() === option.id"
+            class="option-btn"
+            [style.background-color]="getSkinColorValue(option.id)"
+            title="{{ option.name }}"
+          >
+            {{ option.id === selectedSkinColor() ? '✓' : '' }}
+          </button>
+        </div>
+      </div>
+
+      <!-- Estilo de Cabelo -->
+      <div class="option-group">
+        <label>Estilo de Cabelo</label>
+        <div class="option-buttons">
+          <button
+            *ngFor="let option of hairStyleOptions"
+            (click)="selectedHairStyle.set(option.id)"
+            [class.active]="selectedHairStyle() === option.id"
+            class="option-btn text-option"
+          >
+            {{ option.name }}
+            {{ option.id === selectedHairStyle() ? '✓' : '' }}
+          </button>
+        </div>
+      </div>
+
+      <!-- Outfit -->
+      <div class="option-group">
+        <label>Outfit</label>
+        <div class="option-buttons">
+          <button
+            *ngFor="let option of outfitOptions"
+            (click)="selectedOutfit.set(option.id)"
+            [class.active]="selectedOutfit() === option.id"
+            class="option-btn text-option"
+          >
+            {{ option.name }}
+            {{ option.id === selectedOutfit() ? '✓' : '' }}
+          </button>
+        </div>
+      </div>
+
+      <!-- Acessórios -->
+      <div class="option-group">
+        <label>Acessórios (selecione múltiplos)</label>
+        <div class="option-buttons">
+          <button
+            *ngFor="let option of accessoriesOptions"
+            (click)="toggleAccessory(option.id)"
+            [class.active]="selectedAccessories().includes(option.id)"
+            class="option-btn text-option"
+          >
+            {{ option.name }}
+            {{ selectedAccessories().includes(option.id) ? '✓' : '' }}
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Botão Salvar -->
+    <button (click)="saveCharacter()" class="save-btn">
+      💾 Salvar Personagem
+    </button>
+
+    <!-- Mensagem de sucesso -->
+    <div *ngIf="saveSuccess()" class="success-message">
+      ✨ Personagem salvo com sucesso!
+    </div>
+  </div>
+</div>

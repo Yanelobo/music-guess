@@ -1,0 +1,92 @@
+<div class="ranking-container">
+  <h1>🏆 Ranking</h1>
+
+  <div class="ranking-tabs">
+    <button
+      (click)="selectedTab = 'daily'"
+      [class.active]="selectedTab === 'daily'"
+      class="tab-btn"
+    >
+      📅 Hoje
+    </button>
+    <button
+      (click)="selectedTab = 'alltime'"
+      [class.active]="selectedTab === 'alltime'"
+      class="tab-btn"
+    >
+      ⭐ Todos os Tempos (local)
+    </button>
+    <button
+      (click)="selectedTab = 'global'"
+      [class.active]="selectedTab === 'global'"
+      class="tab-btn"
+    >
+      🌐 Global
+    </button>
+  </div>
+
+  <div class="ranking-content">
+    <!-- Ranking Diário -->
+    <div *ngIf="selectedTab === 'daily'" class="ranking-list">
+      <div *ngIf="playerService.dailyRanking().length === 0" class="empty-state">
+        <p>Nenhuma tentativa hoje ainda. Seja o primeiro! 🎵</p>
+      </div>
+
+      <div *ngFor="let score of playerService.dailyRanking(); let i = index" class="ranking-item">
+        <div class="rank-position">
+          <span class="medal">{{ getMedalEmoji(i) }}</span>
+          <span class="position">#{{ i + 1 }}</span>
+        </div>
+        <div class="rank-info">
+          <p class="player-name">{{ score.playerName || 'Anônimo' }}</p>
+          <p class="player-music">{{ score.userGuess }}</p>
+        </div>
+        <div class="rank-score">
+          <span class="percentage">{{ score.matchPercentage }}%</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Ranking Todos os Tempos -->
+    <div *ngIf="selectedTab === 'alltime'" class="ranking-list">
+      <div *ngIf="playerService.allTimeRanking().length === 0" class="empty-state">
+        <p>Nenhum score registrado ainda. Comece a jogar! 🎮</p>
+      </div>
+
+      <div *ngFor="let score of playerService.allTimeRanking(); let i = index" class="ranking-item">
+        <div class="rank-position">
+          <span class="medal">{{ getMedalEmoji(i) }}</span>
+          <span class="position">#{{ i + 1 }}</span>
+        </div>
+        <div class="rank-info">
+          <p class="player-name">{{ score.playerName || 'Anônimo' }}</p>
+          <p class="player-music">{{ score.userGuess }}</p>
+        </div>
+        <div class="rank-score">
+          <span class="percentage">{{ score.matchPercentage }}%</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Ranking Global (servidor) -->
+    <div *ngIf="selectedTab === 'global'" class="ranking-list">
+      <div *ngIf="globalLeaderboard.length === 0" class="empty-state">
+        <p>Nenhum score global encontrado ainda.</p>
+      </div>
+
+      <div *ngFor="let score of globalLeaderboard; let i = index" class="ranking-item">
+        <div class="rank-position">
+          <span class="medal">{{ getMedalEmoji(i) }}</span>
+          <span class="position">#{{ i + 1 }}</span>
+        </div>
+        <div class="rank-info">
+          <p class="player-name">{{ score.playerName || 'Anônimo' }}</p>
+          <p class="player-music">{{ score.userGuess }}</p>
+        </div>
+        <div class="rank-score">
+          <span class="percentage">{{ score.matchPercentage }}%</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

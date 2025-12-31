@@ -1,0 +1,70 @@
+<div class="home-container">
+  <div class="home-content">
+    <!-- Hero Section -->
+    <div class="hero">
+      <h1 class="title">🎵 Music Guess</h1>
+      <p class="subtitle">Um jogo cozy sobre música e vibes</p>
+
+      <div class="hero-description">
+        <p>
+          Todos os dias um novo <strong>humor musical</strong> é escolhido. Sua
+          missão é adivinhar uma música que combine com esse mood!
+        </p>
+        <div class="features">
+          <div class="feature">
+            <span class="feature-icon">📅</span>
+            <p>Uma tentativa por dia</p>
+          </div>
+          <div class="feature">
+            <span class="feature-icon">🏆</span>
+            <p>Ranking global</p>
+          </div>
+          <div class="feature">
+            <span class="feature-icon">👤</span>
+            <p>Customize seu personagem</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Input Section -->
+    <div class="input-section">
+      <form (ngSubmit)="onStartGame()">
+        <div class="form-group">
+          <label for="playerName">Como você se chama? 👋</label>
+          <input
+            id="playerName"
+            type="text"
+            [ngModel]="playerName()"
+            (ngModelChange)="playerName.set($event)"
+            name="playerName"
+            placeholder="Digite seu nome..."
+            [disabled]="isLoading()"
+            class="name-input"
+          />
+        </div>
+
+        <button
+          type="submit"
+          [disabled]="!playerName().trim() || isLoading()"
+          class="start-btn"
+        >
+          <span *ngIf="!isLoading()">✨ Começar a Jogar</span>
+          <span *ngIf="isLoading()">⏳ Carregando...</span>
+        </button>
+      </form>
+    </div>
+
+    <!-- Info Section -->
+    <div class="info-section">
+      <h3>📖 Como Jogar</h3>
+      <ol>
+        <li>Digite seu nome e comece</li>
+        <li>Todos os dias um novo mood é escolhido</li>
+        <li>Adivinhe uma música que combine com esse humor</li>
+        <li>Veja qual é a correspondência com a vibe do dia</li>
+        <li>Volte amanhã para sua próxima tentativa</li>
+      </ol>
+    </div>
+  </div>
+</div>
