@@ -2,11 +2,16 @@ import express, { Request, Response } from 'express';
 import cors from 'cors';
 import fs from 'fs/promises';
 import path from 'path';
+import { fileURLToPath } from 'url';
 
 const app = express();
 const PORT = process.env.PORT ? Number(process.env.PORT) : 3001;
 
 const FRONTEND_ORIGIN = process.env.FRONTEND_ORIGIN || '*';
+
+// __dirname is not defined in ES module context; derive it from import.meta.url
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const LEADERBOARD_FILE = path.join(__dirname, 'leaderboard.json');
 
