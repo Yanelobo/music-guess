@@ -1,4 +1,4 @@
 export const environment = {
   production: false,
-  backendUrl: 'http://localhost:3001'
+  backendUrl: 'https://music-guess-6d95.onrender.com'
 };
